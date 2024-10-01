@@ -10,8 +10,8 @@ from ..models import Employee
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
     """
-    Handle requests to the /register route
-    Add an employee to the database through the registration form
+   Manejar solicitudes a la ruta /register
+    Agregar un empleado a la base de datos a través del formulario de registro
     """
     form = RegistrationForm()
     if form.validate_on_submit():
@@ -21,46 +21,46 @@ def register():
                             last_name=form.last_name.data,
                             password=form.password.data)
 
-        # add employee to the database
+        # agregar empleado a la base de datos
         db.session.add(employee)
         db.session.commit()
         flash('You have successfully registered! You may now login.')
 
-        # redirect to the login page
+        # redirigir a la página de inicio de sesión
         return redirect(url_for('auth.login'))
 
-    # load registration template
+    # cargar plantilla de registro
     return render_template('auth/register.html', form=form, title='Register')
 
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     """
-    Handle requests to the /login route
-    Log an employee in through the login form
+   Manejar solicitudes a la ruta /login
+    Inicie sesión como empleado a través del formulario de inicio de sesión
     """
     form = LoginForm()
     if form.validate_on_submit():
 
-        # check whether employee exists in the database and whether
-        # the password entered matches the password in the database
+        # comprobar si el empleado existe en la base de datos y si
+        # la contraseña ingresada coincide con la contraseña en la base de datos
         employee = Employee.query.filter_by(email=form.email.data).first()
         if employee is not None and employee.verify_password(
                 form.password.data):
-            # log employee in
+            # registrar al empleado
             login_user(employee)
 
-            # redirect to the appropriate dashboard page
+            # redirigir a la página del panel correspondiente
             if employee.is_admin:
                 return redirect(url_for('home.admin_dashboard'))
             else:
                 return redirect(url_for('home.dashboard'))
 
-        # when login details are incorrect
+        # cuando los datos de inicio de sesión son incorrectos
         else:
             flash('Invalid email or password.')
 
-    # load login template
+    # cargar plantilla de inicio de sesión
     return render_template('auth/login.html', form=form, title='Login')
 
 
@@ -68,11 +68,11 @@ def login():
 @login_required
 def logout():
     """
-    Handle requests to the /logout route
-    Log an employee out through the logout link
+   Manejar solicitudes a la ruta /logout
+    Cerrar la sesión de un empleado a través del enlace de cierre de sesión
     """
     logout_user()
-    flash('You have successfully been logged out.')
+    flash('Has cerrado sesión correctamente.')
 
-    # redirect to the login page
+    # redirigir a la página de inicio de sesión
     return redirect(url_for('auth.login'))
