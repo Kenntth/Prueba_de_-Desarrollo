@@ -5,7 +5,7 @@ class Config(object):
     Common configurations
     """
 
-    # Put any configurations here that are common across all environments
+    # Coloque aquí cualquier configuración que sea común en todos los entornos.
     DEBUG = True
 
 class DevelopmentConfig(Config):
@@ -13,7 +13,7 @@ class DevelopmentConfig(Config):
     Development configurations
     """
 
-    #DEBUG = True
+    #DEBUG = Verdadero
     SQLALCHEMY_ECHO = True
 
 
