@@ -25,7 +25,7 @@ Antes de iniciar, asegúrate de tener instalados los siguientes requisitos:
 
 ## Instalación
 
-```
+
 
 ### 2. Crear un entorno virtual
 
