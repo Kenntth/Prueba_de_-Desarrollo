@@ -7,7 +7,7 @@ from . import home
 @home.route('/')
 def homepage():
     """
-    Render the homepage template on the / route
+    Renderice la plantilla de la página de inicio en la ruta /
     """
     return render_template('home/index.html', title="Welcome")
 
@@ -16,7 +16,7 @@ def homepage():
 @login_required
 def dashboard():
     """
-    Render the dashboard template on the /dashboard route
+    Representar la plantilla del panel en la ruta /dashboard
     """
     return render_template('home/dashboard.html', title="Dashboard")
 
@@ -24,7 +24,7 @@ def dashboard():
 @home.route('/admin/dashboard')
 @login_required
 def admin_dashboard():
-    # prevent non-admins from accessing the page
+    #evitar que los no administradores accedan a la página
     if not current_user.is_admin:
         abort(403)
 
