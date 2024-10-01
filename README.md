@@ -1,193 +1,94 @@
 # Prueba de desarrollo CRUD
 
-This is developed on MacOS Catalina with Python version 2.7 using Anaconda.
+---
 
-![Screenshot-1](Screenshot-1.png)
+# Employee Management System
 
-![Screenshot-2](Screenshot-2.png)
+Este proyecto es una aplicación web para la gestión de empleados, desarrollada utilizando **Flask** como framework backend y **MySQL** como base de datos. Proporciona funcionalidades CRUD (Crear, Leer, Actualizar, Eliminar) para empleados y departamentos.
 
-![Screenshot-3](Screenshot-3.png)
+## Tecnologías Utilizadas
 
-![Screenshot-4](Screenshot-4.png)
+- **Flask**: Microframework para la construcción de aplicaciones web en Python.
+- **Flask-SQLAlchemy**: Extensión de Flask que facilita la interacción con la base de datos mediante el uso de un ORM (Object-Relational Mapping).
+- **MySQL**: Sistema de gestión de bases de datos relacional utilizado para almacenar los datos de empleados y departamentos.
+- **Flask-Migrate**: Herramienta para gestionar las migraciones de base de datos y aplicar cambios en el esquema.
+- **Flask-Login**: Extensión para gestionar la autenticación de usuarios (inicio y cierre de sesión).
+- **HTML/CSS**: Para la interfaz de usuario.
 
-## Installing Anaconda
+## Requisitos
 
-Download [Anaconda](https://www.anaconda.com/distribution/#download-section)
+Antes de iniciar, asegúrate de tener instalados los siguientes requisitos:
 
-### Create a Virtual Environment
+- Python 2.7 o superior
+- MySQL Server
+- Anaconda (opcional, pero recomendado para gestionar entornos virtuales)
 
-	`$ conda create -n flaskenv python=2.7 anaconda`
+## Instalación
 
-### Activate the environment
+### 1. Clonar el repositorio
 
-	`$ conda activate flaskenv`
+```bash
+git clone https://github.com/parekhjigar/Employee-management-flask.git
+cd Employee-management-flask
+```
 
-### To deactivate an active environment, use
+### 2. Crear un entorno virtual
 
-	`$ conda deactivate`
+Si usas **Anaconda**, puedes crear un entorno virtual con Python 2.7:
 
-## Install Flask
+```bash
+conda create -n flaskenv python=2.7 anaconda
+conda activate flaskenv
+```
 
-	`$ pip install Flask`
-	
-## Other dependencies
+### 3. Instalar dependencias
 
-	`click==6.6`
-Click is Command Line Interface Creation Kit which is used to add custom shell commands for the webapp.
+Instala las dependencias del proyecto utilizando `pip`:
 
-	`itsdangerous==0.24`
-ItsDangerous provides security when sending data using cryptographical signing.
+```bash
+pip install -r requirements.txt
+```
 
-	`jinja2==2.8`
-Jinja2 is a templating language which is used to create HTML markup formats that are returned to the user upon an HTTP request. Moreover it is even used for Template Inheritance wherein we can save a basic layout in a base template and extend it to other pages.
+### 4. Configurar la base de datos MySQL
 
-	`MarkupSafe==0.23`
-MarkupSafe is a string handling library that implements a text object that escapes characters so it is safe to use in HTML and XML.
+1. Inicia sesión en MySQL:
+   ```bash
+   mysql -u root -p
+   ```
 
-	`Werkzeug==0.11.11`
-Werkzeug is a utility library for WSGI(Web Server Gateway Interface) a protocol that ensures web apps and web servers can communicate effectively.
-	
+2. Crea un usuario y una base de datos:
 
-## Install [MySQL](https://dev.mysql.com/downloads/mysql/)
+   ```sql
+   CREATE USER 'em_admin'@'localhost' IDENTIFIED BY 'em2020';
+   CREATE DATABASE emp_db;
+   GRANT ALL PRIVILEGES ON emp_db.* TO 'em_admin'@'localhost';
+   ```
 
-##### NOTE: Use Legacy Passowrd Encryption while setting up MySQL
+### 5. Migraciones de Base de Datos
 
-## Install Flask-SQLAlchemy and MySQL-Python:
+Inicializa las migraciones y crea el esquema de base de datos:
 
-	`pip install flask-sqlalchemy mysql-python`
+```bash
+flask db init
+flask db migrate
+flask db upgrade
+```
 
-SQLAlchemy is an Object Relational Mapper (ORM), which means that it connects the objects of an application to tables in a relational database management system.
+### 6. Ejecutar la aplicación
 
-MYSQL-Python is a Python interface to MySQL. It will help us connect the MySQL database to the app.
+Una vez configurada la base de datos, puedes ejecutar la aplicación:
 
-## Creating MySQL Database
+```bash
+python run.py
+```
 
-Login as the root user and enter your password
+La aplicación estará disponible en `http://localhost:5000/`.
 
-	`(flaskenv):$ mysql -u root -p`
+## Funcionalidades
 
-### Creating user with username- em_admin and password- em2020
+- Listar empleados y departamentos.
+- Agregar, editar y eliminar empleados.
+- Gestión de departamentos.
+- Autenticación de usuarios con **Flask-Login**.
 
-	`mysql> CREATE USER 'em_admin'@'localhost' IDENTIFIED BY 'em2020';
-	Query OK, 0 rows affected (0.01 sec)`
-
-### Creating database named- emp_db
-
-	`mysql> CREATE DATABASE emp_db;`
-
-### Granting access to our user
-
-	`mysql> GRANT ALL PRIVILEGES ON emp_db . * TO 'em_admin'@'localhost';`
-	
-#### Make sure you set the FLASK_CONFIG and FLASK_APP environment variables before running the app
-
-## Models- Employee, Department and Role
-
-Model is a representation of a database table in code.
-
-### Installing Flask-Login
-
-For user management and handle logging in, logging out, and user sessions wherein the Employee model will inherit from Flask-Login's UserMixin class.
-
-#### For user management and handle logging in, logging out, and user sessions.
-
-	`$ pip install flask-login`
-
-## Installing flask-migrate
-
-Migrations allow us to manage changes we make to the models, and propagate these changes in the database.
-
-	`$ pip install flask-migrate`
-
-#### Create Migration Repository
-
-	`$ flask db init`
-
-This will create a "migrations" directory in the main directory
-
-	`
-	└── migrations
-	    ├── README
-	    ├── alembic.ini
-	    ├── env.py
-	    ├── script.py.mako
-	    └── versions
-	`
-#### Creating first migration
-
-	`$ flask db migrate`
-
-#### Applying the migration
-
-	`$ flask db upgrade`
-
-
-### Tables will now be successfully created and can be checked by:
-
-	`$ mysql -u root -p`
-
-	`mysql> use em_db;`
-
-	`mysql> show tables;
-	+-----------------+
-	| Tables_in_em_db |
-	+-----------------+
-	| alembic_version |
-	| departments     |
-	| employees       |
-	| roles           |
-	+-----------------+
-	4 rows in set (0.00 sec)`
-	
-## Blueprints
-
-Blueprints are used for organising the flask app into components, each with its own views and forms.
-
-	`
-	└── Employee-Management-Flask
-	    ├── app
-	    │   ├── __init__.py
-	    │   ├── admin
-	    │   │   ├── __init__.py
-	    │   │   ├── forms.py
-	    │   │   └── views.py
-	    │   ├── auth
-	    │   │   ├── __init__.py
-	    │   │   ├── forms.py
-	    │   │   └── views.py
-	    │   ├── home
-	    │   │   ├── __init__.py
-	    │   │   └── views.py
-	    │   ├── models.py
-	    │   ├── static
-	    │   └── templates
-	    ├── config.py
-	    ├── instance
-	    │   └── config.py
-	    ├── migrations
-	    │   ├── README
-	    │   ├── alembic.ini
-	    │   ├── env.py
-	    │   ├── script.py.mako
-	    │   └── versions
-	    │       └── a7bb5c73273d.py
-	    ├── requirements.txt
-	    └── run.py
-	`
-### Auth Blueprint- Creating registration and login forms 
-	
-	`pip install Flask-WTF`
-
-Flask-WTF is used for creating registration and login forms.
-
-	`pip install flask-bootstrap`
-
-Flask-Bootstrap iis installed to use its wtf and utils library to create templates.	
-
-
-### Flask Unit testing
-
-	`pip install Flask-Testing`
-	
-Tests help ensure that the app is working as expected, without the need to manually test all of the app's functionality.
 
