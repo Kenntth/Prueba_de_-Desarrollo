@@ -7,7 +7,7 @@ from ..models import Department, Role
 
 class DepartmentForm(FlaskForm):
     """
-    Form for admin to add or edit a department
+    Formulario para que el administrador agregue o edite un departamento
     """
     name = StringField('Name', validators=[DataRequired()])
     description = StringField('Description', validators=[DataRequired()])
@@ -15,7 +15,7 @@ class DepartmentForm(FlaskForm):
 
 class RoleForm(FlaskForm):
     """
-    Form for admin to add or edit a role
+    Formulario para que el administrador agregue o edite un rol
     """
     name = StringField('Name', validators=[DataRequired()])
     description = StringField('Description', validators=[DataRequired()])
@@ -23,7 +23,7 @@ class RoleForm(FlaskForm):
 
 class EmployeeAssignForm(FlaskForm):
     """
-    Form for admin to assign departments and roles to employees
+   Formulario para que el administrador asigne departamentos y roles a los empleados
     """
     department = QuerySelectField(query_factory=lambda: Department.query.all(),
                                   get_label="name")
