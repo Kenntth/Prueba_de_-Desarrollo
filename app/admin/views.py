@@ -9,13 +9,13 @@ from ..models import Department, Employee, Role
 
 def check_admin():
     """
-    Prevent non-admins from accessing the page
+    Evitar que los no administradores accedan a la página
     """
     if not current_user.is_admin:
         abort(403)
 
 
-# Department Views
+#Vistas de departamento
 
 @admin.route('/departments', methods=['GET', 'POST'])
 @login_required
@@ -35,7 +35,7 @@ def list_departments():
 @login_required
 def add_department():
     """
-    Add a department to the database
+   Agregar un departamento a la base de datos
     """
     check_admin()
 
@@ -46,18 +46,18 @@ def add_department():
         department = Department(name=form.name.data,
                                 description=form.description.data)
         try:
-            # add department to the database
+            # agregar departamento a la base de datos
             db.session.add(department)
             db.session.commit()
             flash('You have successfully added a new department.')
         except:
-            # in case department name already exists
+            # en caso de que el nombre del departamento ya exista
             flash('Error: department name already exists.')
 
-        # redirect to departments page
+        # redirigir a la página de departamentos
         return redirect(url_for('admin.list_departments'))
 
-    # load department template
+    # cargar plantilla de departamento
     return render_template('admin/departments/department.html', action="Add",
                            add_department=add_department, form=form,
                            title="Add Department")
@@ -81,7 +81,7 @@ def edit_department(id):
         db.session.commit()
         flash('You have successfully edited the department.')
 
-        # redirect to the departments page
+        # redirigir a la página de departamentos
         return redirect(url_for('admin.list_departments'))
 
     form.description.data = department.description
@@ -104,13 +104,13 @@ def delete_department(id):
     db.session.commit()
     flash('You have successfully deleted the department.')
 
-    # redirect to the departments page
+    # redirigir a la página de departamentos
     return redirect(url_for('admin.list_departments'))
 
     return render_template(title="Delete Department")
 
 
-# Role Views
+# Vistas de roles
 
 @admin.route('/roles')
 @login_required
@@ -140,18 +140,18 @@ def add_role():
                     description=form.description.data)
 
         try:
-            # add role to the database
+            # agregar rol a la base de datos
             db.session.add(role)
             db.session.commit()
             flash('You have successfully added a new role.')
         except:
-            # in case role name already exists
+            # en caso de que el nombre del rol ya exista
             flash('Error: role name already exists.')
 
-        # redirect to the roles page
+        # redirigir a la página de roles
         return redirect(url_for('admin.list_roles'))
 
-    # load role template
+    # cargar plantilla de rol
     return render_template('admin/roles/role.html', add_role=add_role,
                            form=form, title='Add Role')
 
@@ -175,7 +175,7 @@ def edit_role(id):
         db.session.commit()
         flash('You have successfully edited the role.')
 
-        # redirect to the roles page
+        #redirigir a la página de roles
         return redirect(url_for('admin.list_roles'))
 
     form.description.data = role.description
@@ -197,13 +197,13 @@ def delete_role(id):
     db.session.commit()
     flash('You have successfully deleted the role.')
 
-    # redirect to the roles page
+    # redirigir a la página de roles
     return redirect(url_for('admin.list_roles'))
 
     return render_template(title="Delete Role")
 
 
-# Employee Views
+# Vistas de los empleados
 
 @admin.route('/employees')
 @login_required
@@ -228,7 +228,7 @@ def assign_employee(id):
 
     employee = Employee.query.get_or_404(id)
 
-    # prevent admin from being assigned a department or role
+    # evitar que al administrador se le asigne un departamento o función
     if employee.is_admin:
         abort(403)
 
@@ -240,7 +240,7 @@ def assign_employee(id):
         db.session.commit()
         flash('You have successfully assigned a department and role.')
 
-        # redirect to the roles page
+        # redirigir a la página de roles
         return redirect(url_for('admin.list_employees'))
 
     return render_template('admin/employees/employee.html',
