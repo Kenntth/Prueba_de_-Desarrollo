@@ -12,7 +12,7 @@ class TestBase(TestCase):
 
     def create_app(self):
 
-        # pass in test configurations
+        #Pasar las configuraciones de prueba.
         config_name = 'testing'
         app = create_app(config_name)
         app.config.update(
@@ -22,25 +22,25 @@ class TestBase(TestCase):
 
     def setUp(self):
         """
-        Will be called before every test
+       Será llamado antes de cada prueba.
         """
 
         db.create_all()
 
-        # create test admin user
+        # crear usuario administrador de prueba
         admin = Employee(username="admin", password="admin2020", is_admin=True)
 
-        # create test non-admin user
+        #crear usuario de prueba no administrador
         employee = Employee(username="test_user", password="test2020")
 
-        # save users to database
+        # guardar usuarios en la base de datos
         db.session.add(admin)
         db.session.add(employee)
         db.session.commit()
 
     def tearDown(self):
         """
-        Will be called after every test
+       Será llamado después de cada prueba.
         """
 
         db.session.remove()
@@ -51,19 +51,19 @@ class TestModels(TestBase):
 
     def test_employee_model(self):
         """
-        Test number of records in Employee table
+       Número de prueba de registros en la tabla de empleados
         """
         self.assertEqual(Employee.query.count(), 2)
 
     def test_department_model(self):
         """
-        Test number of records in Department table
+       Número de prueba de registros en la tabla Departamento
         """
 
-        # create test department
+        # crear departamento de pruebas
         department = Department(name="IT", description="The IT Department")
 
-        # save department to database
+        # guardar departamento en base de datos
         db.session.add(department)
         db.session.commit()
 
@@ -74,10 +74,10 @@ class TestModels(TestBase):
         Test number of records in Role table
         """
 
-        # create test role
+        # crear rol de prueba
         role = Role(name="CEO", description="Run the whole company")
 
-        # save role to database
+        # guardar rol en la base de datos
         db.session.add(role)
         db.session.commit()
 
@@ -88,22 +88,22 @@ class TestViews(TestBase):
 
     def test_homepage_view(self):
         """
-        Test that homepage is accessible without login
+        Pruebe que se pueda acceder a la página de inicio sin iniciar sesión
         """
         response = self.client.get(url_for('home.homepage'))
         self.assertEqual(response.status_code, 200)
 
     def test_login_view(self):
         """
-        Test that login page is accessible without login
+       Pruebe que se pueda acceder a la página de inicio de sesión sin iniciar sesión
         """
         response = self.client.get(url_for('auth.login'))
         self.assertEqual(response.status_code, 200)
 
     def test_logout_view(self):
         """
-        Test that logout link is inaccessible without login
-        and redirects to login page then to logout
+        Pruebe que el enlace de cierre de sesión sea inaccesible sin iniciar sesión
+        y redirige a la página de inicio de sesión y luego a cerrar sesión
         """
         target_url = url_for('auth.logout')
         redirect_url = url_for('auth.login', next=target_url)
@@ -113,8 +113,8 @@ class TestViews(TestBase):
 
     def test_dashboard_view(self):
         """
-        Test that dashboard is inaccessible without login
-        and redirects to login page then to dashboard
+       Pruebe que el panel sea inaccesible sin iniciar sesión
+        y redirige a la página de inicio de sesión y luego al panel de control
         """
         target_url = url_for('home.dashboard')
         redirect_url = url_for('auth.login', next=target_url)
@@ -124,8 +124,8 @@ class TestViews(TestBase):
 
     def test_admin_dashboard_view(self):
         """
-        Test that dashboard is inaccessible without login
-        and redirects to login page then to dashboard
+        Pruebe que el panel sea inaccesible sin iniciar sesión
+        y redirige a la página de inicio de sesión y luego al panel de control
         """
         target_url = url_for('home.admin_dashboard')
         redirect_url = url_for('auth.login', next=target_url)
@@ -135,8 +135,8 @@ class TestViews(TestBase):
 
     def test_departments_view(self):
         """
-        Test that departments page is inaccessible without login
-        and redirects to login page then to departments page
+        Pruebe que la página de departamentos sea inaccesible sin iniciar sesión
+        y redirige a la página de inicio de sesión y luego a la página de departamentos
         """
         target_url = url_for('admin.list_departments')
         redirect_url = url_for('auth.login', next=target_url)
@@ -146,8 +146,8 @@ class TestViews(TestBase):
 
     def test_roles_view(self):
         """
-        Test that roles page is inaccessible without login
-        and redirects to login page then to roles page
+        Pruebe que la página de roles sea inaccesible sin iniciar sesión
+        y redirige a la página de inicio de sesión y luego a la página de roles
         """
         target_url = url_for('admin.list_roles')
         redirect_url = url_for('auth.login', next=target_url)
@@ -157,8 +157,8 @@ class TestViews(TestBase):
 
     def test_employees_view(self):
         """
-        Test that employees page is inaccessible without login
-        and redirects to login page then to employees page
+        Pruebe que la página de empleados sea inaccesible sin iniciar sesión
+        y redirige a la página de inicio de sesión y luego a la página de empleados
         """
         target_url = url_for('admin.list_employees')
         redirect_url = url_for('auth.login', next=target_url)
