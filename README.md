@@ -2,7 +2,7 @@
 
 ---
 
-# Employee Management System
+# 
 
 Este proyecto es una aplicación web para la gestión de empleados, desarrollada utilizando **Flask** como framework backend y **MySQL** como base de datos. Proporciona funcionalidades CRUD (Crear, Leer, Actualizar, Eliminar) para empleados y departamentos.
 
@@ -25,11 +25,6 @@ Antes de iniciar, asegúrate de tener instalados los siguientes requisitos:
 
 ## Instalación
 
-### 1. Clonar el repositorio
-
-```bash
-git clone https://github.com/parekhjigar/Employee-management-flask.git
-cd Employee-management-flask
 ```
 
 ### 2. Crear un entorno virtual
