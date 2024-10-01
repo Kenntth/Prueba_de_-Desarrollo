@@ -7,7 +7,7 @@ from ..models import Employee
 
 class RegistrationForm(FlaskForm):
     """
-    Form for users to create new account
+    Formulario para que los usuarios creen una nueva cuenta
     """
     email = StringField('Email', validators=[DataRequired(), Email()])
     username = StringField('Username', validators=[DataRequired()])
@@ -31,7 +31,7 @@ class RegistrationForm(FlaskForm):
 
 class LoginForm(FlaskForm):
     """
-    Form for users to login
+   Formulario para que los usuarios inicien sesión
     """
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
